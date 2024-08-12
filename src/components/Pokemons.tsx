@@ -27,7 +27,7 @@ const Pokemons = () => {
         types: details.types,
        });
 
-       setLists(tempArr);
+       setLists((prev) => (prev = tempArr));
       });
      });
     }
