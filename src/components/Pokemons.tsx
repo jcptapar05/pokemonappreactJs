@@ -1,41 +1,55 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import Pokemon from "./Pokemon";
 import axios from "axios";
 
 const Pokemons = () => {
  const [lists, setLists] = useState<any[]>([]);
  const [limit, setLimit] = useState<number>(20);
+ const [offset, setOffset] = useState<number>(0);
 
  useEffect(() => {
   const fetchPokemons = () => {
-   axios(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`).then(
-    (response) => {
-     const pokemonList = response.data.results;
-     const tempArr: any[] = [];
+   axios(
+    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+   ).then((response) => {
+    const pokemonList = response.data.results;
+    const tempArr: any[] = [];
 
-     pokemonList.map((pokemonItem: any) => {
-      axios.get(pokemonItem.url).then((item) => {
-       const details = item.data;
-       console.log(details);
-       tempArr.push({
-        id: details.id,
-        name: details.name,
-        image: details.sprites.front_default,
-        types: details.types,
-       });
-
-       setLists((prev) => (prev = tempArr));
+    pokemonList.map((pokemonItem: any) => {
+     axios.get(pokemonItem.url).then((item) => {
+      const details = item.data;
+      console.log(details);
+      tempArr.push({
+       id: details.id,
+       name: details.name,
+       image: details.sprites.front_default,
+       types: details.types,
       });
+
+      const newArr = [...lists, ...tempArr];
+
+      setLists((prev) => (prev = newArr));
      });
-    }
-   );
+    });
+   });
   };
 
   fetchPokemons();
- }, [limit]);
+
+  window.addEventListener("scroll", (e: any) => {
+   const bottom =
+    e.target.scrollingElement.scrollHeight -
+     e.target.scrollingElement.scrollTop ===
+    e.target.scrollingElement.clientHeight;
+   if (bottom) {
+    setLimit((prev: number) => (prev += 20));
+    setOffset((prev: number) => (prev += 20));
+   }
+  });
+ }, [limit, offset]);
 
  return (
   <div>
@@ -57,7 +71,17 @@ const Pokemons = () => {
     ))}
    </Box>
 
-   <button onClick={() => setLimit((prev: number) => prev + 20)}>Limit</button>
+   <div style={{ marginBottom: "30px", textAlign: "center" }}>
+    <Button
+     variant="contained"
+     onClick={() => {
+      setLimit((prev: number) => (prev += 20));
+      setOffset((prev: number) => (prev += 20));
+     }}
+    >
+     Load More
+    </Button>
+   </div>
   </div>
  );
 };
