@@ -32,7 +32,7 @@ const SearchInput = () => {
     } else {
      setOptions([]);
     }
-   }, 1000),
+   }, 700),
   []
  );
 

@@ -14,7 +14,7 @@ function App() {
     />
 
     <Route
-     path=":id"
+     path="/:id"
      element={<Details />}
     />
 
