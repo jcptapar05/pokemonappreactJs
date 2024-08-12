@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Pokemon from "./Pokemon";
 import axios from "axios";
 
@@ -31,7 +31,7 @@ const Pokemons = () => {
 
       const newArr = [...lists, ...tempArr];
 
-      setLists((prev) => (prev = newArr));
+      setLists(newArr);
      });
     });
    });
