@@ -63,12 +63,18 @@ const Pokemons = () => {
      flexWrap: "wrap",
     }}
    >
-    {lists.map((pokemon, index) => (
-     <Pokemon
-      pokemon={pokemon}
-      key={index}
-     />
-    ))}
+    {lists.length >= 1 ? (
+     lists.map((pokemon, index) => (
+      <Pokemon
+       pokemon={pokemon}
+       key={index}
+      />
+     ))
+    ) : (
+     <div style={{ textAlign: "center", color: "#fff" }}>
+      <h2>Loading...</h2>
+     </div>
+    )}
    </Box>
 
    <div style={{ marginBottom: "30px", textAlign: "center" }}>
