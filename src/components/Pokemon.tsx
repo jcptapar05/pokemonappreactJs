@@ -22,7 +22,7 @@ export default function Pokemon({ pokemon }: any) {
     onMouseOver={() => setOver(true)}
     onMouseOut={() => setOver(false)}
     className="pokemoncard"
-    sx={{ width: 300, padding: "20px" }}
+    sx={{ width: 160, padding: "20px" }}
     style={{ backgroundColor: "#1a1a1a", borderRadius: "16px" }}
    >
     <Typography
