@@ -10,10 +10,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 
 const Pokemons = () => {
- const [lists, setLists] = useState<any[]>([]);
- const [limit, setLimit] = useState<number>(20);
- const [offset, setOffset] = useState<number>(0);
- const [loading, setLoading] = useState<boolean>(false);
+ const [limit] = useState<number>(20);
+
  const { ref, inView } = useInView();
 
  const fetchPokemons = async ({ pageParam }: { pageParam: number }) => {
@@ -34,22 +32,15 @@ const Pokemons = () => {
   return { results: tempArr, offset: pageParam };
  };
 
- const {
-  data,
-  error,
-  fetchNextPage,
-  hasNextPage,
-  isFetching,
-  isFetchingNextPage,
-  status,
- } = useInfiniteQuery({
-  queryKey: ["projects"],
-  queryFn: fetchPokemons,
-  initialPageParam: 0,
-  getNextPageParam: (lastPage) => {
-   return lastPage.offset + 20;
-  },
- });
+ const { data, error, fetchNextPage, isFetching, isFetchingNextPage, status } =
+  useInfiniteQuery({
+   queryKey: ["projects"],
+   queryFn: fetchPokemons,
+   initialPageParam: 0,
+   getNextPageParam: (lastPage) => {
+    return lastPage.offset + 20;
+   },
+  });
 
  useEffect(() => {
   if (inView) {
@@ -100,10 +91,7 @@ const Pokemons = () => {
      <div style={{ marginBottom: "30px", textAlign: "center" }}>
       <Button
        variant="contained"
-       onClick={() => {
-        setLoading(true);
-        setOffset((prev: number) => prev + 20);
-       }}
+       onClick={() => fetchNextPage}
       >
        Load More
       </Button>

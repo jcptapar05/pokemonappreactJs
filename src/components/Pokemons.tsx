@@ -8,7 +8,7 @@ import Loading from "./Loading";
 
 const Pokemons = () => {
  const [lists, setLists] = useState<any[]>([]);
- const [limit, setLimit] = useState<number>(20);
+ const [limit] = useState<number>(20);
  const [offset, setOffset] = useState<number>(0);
  const [loading, setLoading] = useState<boolean>(false);
 
