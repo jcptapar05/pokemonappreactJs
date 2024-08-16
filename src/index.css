@@ -4,3 +4,11 @@ body {
   box-sizing: border-box;
   background-color: #000;
 }
+
+.pokemoncard {
+  transition: all .3s ease-in-out !important;
+}
+
+.pokemoncard:hover {
+  transform: translateY(-8px);
+}

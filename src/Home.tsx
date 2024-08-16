@@ -1,13 +1,7 @@
-import SearchInput from "./components/SearchInput";
-import Pokemons from "./components/Pokemons";
+import Pokemons from "./components/PokemonsLists";
 
 const Home = () => {
- return (
-  <>
-   <SearchInput />
-   <Pokemons />
-  </>
- );
+ return <Pokemons />;
 };
 
 export default Home;

@@ -10,30 +10,42 @@ import { Box, Container } from "@mui/material";
 const SearchInput = () => {
  const [options, setOptions] = useState<any[]>([]);
  const [inputValue, setInputValue] = useState("");
+ const [lists, setLists] = useState<any[]>([]);
 
- const fetchPokemon = async (name: any) => {
+ const fetchPokemon = async () => {
   try {
    const response = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon/${name}`
+    `https://pokeapi.co/api/v2/pokemon-species?limit=100000&offset=0`
    );
-   return response.data;
+   const data = await response.data;
+   console.log("first");
+   console.log(data.results);
+   setLists(data.results);
   } catch (error) {
    console.error("Error fetching Pokémon data:", error);
    return null;
   }
  };
 
+ useEffect(() => {
+  fetchPokemon();
+ }, []);
+
  const debouncedFetchPokemon = useMemo(
   () =>
    _.debounce(async (name) => {
-    const pokemonData = await fetchPokemon(name.toLowerCase());
+    console.log(name);
+    const pokemonData = lists.filter((item) => {
+     return item?.name?.includes(name.toLowerCase());
+    });
+    console.log("pokemonData", pokemonData);
     if (pokemonData) {
-     setOptions([pokemonData]);
+     setOptions(pokemonData);
     } else {
      setOptions([]);
     }
    }, 500),
-  []
+  [lists]
  );
 
  const handleInputChange = (_event: any, value: any) => {
@@ -70,14 +82,19 @@ const SearchInput = () => {
      renderOption={(props, option) => (
       <li
        {...props}
-       style={{ padding: "0" }}
+       style={{
+        textTransform: "capitalize",
+       }}
       >
        <Link
-        to={`/${option.id}`}
-        style={{ display: "block", width: "100%", padding: "0" }}
+        style={{
+         display: "block",
+         width: "100%",
+         textTransform: "capitalize",
+        }}
+        to={`/${option.name}`}
        >
-        <strong style={{ padding: "0" }}>{option.name}</strong> - ID:{" "}
-        {option.id}
+        <strong>{option.name}</strong>
        </Link>
       </li>
      )}
