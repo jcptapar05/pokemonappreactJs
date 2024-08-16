@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Container, Grid } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PokemonType from "./components/PokemonType";
 import { useQuery } from "@tanstack/react-query";
