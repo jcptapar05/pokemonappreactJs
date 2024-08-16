@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import PokemonType from "./components/PokemonType";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
+import { useEffect } from "react";
 
 const Details = () => {
  const route = useParams();
@@ -21,11 +22,16 @@ const Details = () => {
   data: pokemon,
   status,
   isPending,
+  refetch,
   error,
  } = useQuery({
   queryKey: ["details"],
   queryFn: getPokemon,
  });
+
+ useEffect(() => {
+  refetch();
+ }, [route]);
 
  return (
   <Container>
