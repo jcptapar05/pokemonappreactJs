@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
 import Pokemon from "./Pokemon";
 import axios from "axios";
 import Loading from "./Loading";
@@ -59,11 +58,11 @@ const Pokemons = () => {
 
  return (
   <div style={{ position: "relative" }}>
-   <div style={{ position: "fixed", top: "10px" }}>
+   {/* <div style={{ position: "fixed", top: "10px" }}>
     <h1 style={{ color: "white" }}>
      Lists: {combinedResults?.length} status: {status}
     </h1>
-   </div>
+   </div> */}
 
    {error && (
     <div style={{ textAlign: "center", color: "#fff" }}>

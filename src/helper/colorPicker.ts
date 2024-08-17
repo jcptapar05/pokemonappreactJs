@@ -1,5 +1,5 @@
 export const colorPicker = (text: string) => {
- switch (text.toLowerCase()) {
+ switch (text) {
   case "fire":
    return "#EE8130";
   case "water":

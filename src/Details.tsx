@@ -6,6 +6,7 @@ import PokemonType from "./components/PokemonType";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
 import { useEffect } from "react";
+import { colorPicker } from "./helper/colorPicker";
 
 const Details = () => {
  const route = useParams();
@@ -15,6 +16,7 @@ const Details = () => {
    `https://pokeapi.co/api/v2/pokemon/${route.name}`
   );
   const data = await response.data;
+  console.log(data);
   return data;
  };
 
@@ -34,75 +36,110 @@ const Details = () => {
  }, [route]);
 
  return (
-  <Container>
+  <Container
+   style={{
+    marginBottom: "30px",
+   }}
+  >
    {error && <p>Not found!</p>}
    {isPending && <Loading />}
    {status == "success" && (
     <>
-     <Button
-      sx={{ marginTop: "50px" }}
-      variant="text"
-      color="primary"
-     >
-      <Link
-       style={{ textDecoration: "none", color: "white" }}
-       to="/"
+     <Container>
+      <Button
+       sx={{ margin: "10px 0 30px 0" }}
+       variant="text"
+       color="primary"
       >
-       &lt; Home
-      </Link>
-     </Button>
+       <Link
+        style={{ textDecoration: "none", color: "white" }}
+        to="/"
+       >
+        &lt; Home
+       </Link>
+      </Button>
+     </Container>
      <Grid
       container
       spacing={2}
+      style={{
+       padding: "40px 0",
+      }}
      >
       <Grid
        item
-       xs={6}
+       xs={12}
+       sm={6}
       >
        <Box
         sx={{
          display: "flex",
-         height: "80vh",
          color: "#fff",
          justifyContent: "center",
          alignItems: "center",
-         mt: 1,
-         mb: 10,
          gap: 3,
          flexWrap: "wrap",
+         height: "100%",
         }}
        >
-        <div>
-         <img
-          style={{ height: "200px", objectFit: "contain" }}
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemon?.id}.gif`}
-          alt=""
-         />
+        <div
+         style={{
+          padding: "50px",
+         }}
+        >
+         <p style={{ fontWeight: "bold", fontSize: "40px" }}># {pokemon?.id}</p>
+         <div
+          style={{
+           textAlign: "center",
+          }}
+         >
+          <img
+           style={{
+            height: "100%",
+            maxHeight: "300px",
+            objectFit: "contain",
+           }}
+           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+           alt=""
+          />
+          <div
+           style={{
+            width: "400px",
+            height: "50px",
+            marginTop: "-30px",
+            borderRadius: "100%",
+            background: `radial-gradient(circle, ${colorPicker(
+             pokemon?.types[0]?.type?.name
+            )} 0%, #000 100%)`,
+            filter: "blur(16px)",
+           }}
+          ></div>
+         </div>
         </div>
        </Box>
       </Grid>
 
       <Grid
        item
-       xs={6}
+       xs={12}
+       sm={6}
       >
        <Box
         sx={{
          display: "flex",
-         height: "80vh",
          color: "#fff",
          justifyContent: "center",
          alignItems: "center",
-         mt: 1,
-         mb: 10,
          gap: 3,
          flexWrap: "wrap",
+         height: "100%",
         }}
        >
         <div>
          <h2 style={{ textTransform: "capitalize" }}>{pokemon?.name}</h2>
-         <p style={{ textTransform: "capitalize" }}>{pokemon?.id}</p>
-         <p style={{ textTransform: "capitalize" }}>Height: {pokemon?.name}</p>
+         <p style={{ textTransform: "capitalize" }}>
+          Height: {pokemon?.height}
+         </p>
 
          {pokemon?.types.map((item: any, index: any) => (
           <PokemonType

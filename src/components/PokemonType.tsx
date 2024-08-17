@@ -11,6 +11,7 @@ const PokemonType = ({ item }: { item: any }) => {
     color: "#fff",
     borderRadius: "30px",
     fontSize: "10PX",
+    marginRight: "10px",
     background: `
   ${colorPicker(item.type.name)}
   `,
