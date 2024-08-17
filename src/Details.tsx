@@ -24,6 +24,7 @@ const Details = () => {
   data: pokemon,
   status,
   isPending,
+  isFetching,
   refetch,
   error,
  } = useQuery({
@@ -42,8 +43,10 @@ const Details = () => {
    }}
   >
    {error && <p>Not found!</p>}
-   {isPending && <Loading />}
-   {status == "success" && (
+
+   {(status == "pending" || isPending || isFetching) && <Loading />}
+
+   {status == "success" && !isFetching && (
     <>
      <Container>
       <Button
