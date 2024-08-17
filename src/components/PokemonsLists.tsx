@@ -10,17 +10,15 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 
 const Pokemons = () => {
- const [limit] = useState<number>(20);
+ const limit = 20;
 
  const { ref, inView } = useInView();
 
  const fetchPokemons = async ({ pageParam }: { pageParam: number }) => {
-  console.log("pageParam: ", pageParam);
   const response = await axios(
    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${pageParam}`
   );
   const data = await response.data;
-  // console.log("data = ", data.results);
 
   const tempArr: any[] = [];
   data.results.map(async (item: any) => {
@@ -32,30 +30,39 @@ const Pokemons = () => {
   return { results: tempArr, offset: pageParam };
  };
 
- const { data, error, fetchNextPage, isFetching, isFetchingNextPage, status } =
-  useInfiniteQuery({
-   queryKey: ["projects"],
-   queryFn: fetchPokemons,
-   initialPageParam: 0,
-   getNextPageParam: (lastPage) => {
-    return lastPage.offset + 20;
-   },
-  });
-
- useEffect(() => {
-  if (inView) {
-   fetchNextPage();
-  }
- }, [inView]);
+ const {
+  data,
+  error,
+  fetchNextPage,
+  isFetching,
+  isFetchingNextPage,
+  hasNextPage,
+  status,
+ } = useInfiniteQuery({
+  queryKey: ["projects"],
+  queryFn: fetchPokemons,
+  initialPageParam: 0,
+  getNextPageParam: (lastPage) => {
+   return lastPage.offset + 20;
+  },
+ });
 
  const combinedResults = data?.pages.reduce((acc, page: any) => {
   return acc.concat(page.results);
  }, []);
 
+ //  useEffect(() => {
+ if (inView) {
+  fetchNextPage();
+ }
+ //  }, [inView]);
+
  return (
   <div style={{ position: "relative" }}>
    <div style={{ position: "fixed", top: "10px" }}>
-    <h1 style={{ color: "white" }}>Lists: {combinedResults?.length}</h1>
+    <h1 style={{ color: "white" }}>
+     Lists: {combinedResults?.length} status: {status}
+    </h1>
    </div>
 
    {error && (
@@ -74,7 +81,7 @@ const Pokemons = () => {
      flexWrap: "wrap",
     }}
    >
-    {status == "success" &&
+    {(status == "success" || isFetchingNextPage) &&
      combinedResults?.map((pokemon, index) => (
       <Pokemon
        key={index}
@@ -85,13 +92,13 @@ const Pokemons = () => {
 
    {(status == "pending" || isFetching || isFetchingNextPage) && <Loading />}
 
-   {status == "success" && (
+   {status == "success" && hasNextPage && (
     <>
      <div ref={ref}></div>
      <div style={{ marginBottom: "30px", textAlign: "center" }}>
       <Button
        variant="contained"
-       onClick={() => fetchNextPage}
+       onClick={() => fetchNextPage()}
       >
        Load More
       </Button>
