@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
 import { useEffect } from "react";
 import { colorPicker } from "./helper/colorPicker";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const Details = () => {
  const route = useParams();
@@ -83,6 +84,7 @@ const Details = () => {
          gap: 3,
          flexWrap: "wrap",
          height: "100%",
+         width: "100%",
         }}
        >
         <div
@@ -99,6 +101,7 @@ const Details = () => {
           <img
            style={{
             height: "100%",
+            width: "100%",
             maxHeight: "300px",
             objectFit: "contain",
            }}
@@ -107,7 +110,8 @@ const Details = () => {
           />
           <div
            style={{
-            width: "400px",
+            maxWidth: "400px",
+            width: "100%",
             height: "50px",
             marginTop: "-30px",
             borderRadius: "100%",
@@ -129,13 +133,13 @@ const Details = () => {
       >
        <Box
         sx={{
-         display: "flex",
          color: "#fff",
          justifyContent: "center",
          alignItems: "center",
          gap: 3,
          flexWrap: "wrap",
          height: "100%",
+         width: "100%",
         }}
        >
         <div>
@@ -150,6 +154,40 @@ const Details = () => {
            item={item}
           ></PokemonType>
          ))}
+
+         <Box
+          sx={{
+           width: "100%",
+           display: "flex",
+           flexDirection: "column",
+           gap: "20px",
+           marginTop: "30px",
+          }}
+         >
+          {pokemon?.stats.map((stat: any, index: any) => (
+           <div
+            key={index}
+            style={{
+             display: "flex",
+             flexDirection: "column",
+             textTransform: "uppercase",
+            }}
+           >
+            <span>{stat.stat.name}</span>
+            <LinearProgress
+             variant="determinate"
+             sx={{
+              marginTop: "10px",
+              backgroundColor: `#aaaaaaaa`,
+              "& .MuiLinearProgress-bar": {
+               backgroundColor: `${colorPicker(pokemon?.types[0]?.type?.name)}`,
+              },
+             }}
+             value={stat.base_stat}
+            />
+           </div>
+          ))}
+         </Box>
         </div>
        </Box>
       </Grid>
