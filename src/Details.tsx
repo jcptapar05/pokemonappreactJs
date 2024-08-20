@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Container, Grid } from "@mui/material";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PokemonType from "./components/PokemonType";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
