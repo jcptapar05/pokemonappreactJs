@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Container, Grid } from "@mui/material";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PokemonType from "./components/PokemonType";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./components/Loading";
@@ -11,6 +11,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 const Details = () => {
  const route = useParams();
+ const navigate = useNavigate();
 
  const getPokemon = async () => {
   const response = await axios.get(
@@ -53,14 +54,15 @@ const Details = () => {
       <Button
        sx={{ margin: "10px 0 30px 0" }}
        variant="text"
-       color="primary"
+       color="warning"
+       onClick={() => navigate(-1)}
       >
-       <Link
+       {/* <Link
         style={{ textDecoration: "none", color: "white" }}
         to="/"
-       >
-        &lt; Home
-       </Link>
+       > */}
+       &lt; Back
+       {/* </Link> */}
       </Button>
      </Container>
      <Grid
